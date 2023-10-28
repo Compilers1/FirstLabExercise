@@ -2,10 +2,10 @@
 
 int yylex(FILE* fptr, union semantic_info* sem) {
 	int nextCharacter;
-	char lexeme[100] = {'\0'};
-	unsigned int index = 0;
-	unsigned int state = 0;
-	unsigned int token = 0;
+	char lexeme[SIZE] = {'\0'};
+	unsigned int index = INIT;
+	unsigned int state = INIT;
+	unsigned int token = INIT;
 
 	while ((nextCharacter = fgetc(fptr)) != EOF) {
 		switch (state) {
@@ -22,23 +22,25 @@ int yylex(FILE* fptr, union semantic_info* sem) {
 				}
 				break;
 			case 1:
+				token = 1;
 				if (!isalnum(nextCharacter)) {
-					token = 1;
-					sem->str = lexeme;
+					return token;
 				}
 				else {
 					lexeme[index] = nextCharacter;
 					index++;
+					sem->str = lexeme;
 				}
 				break;
 			case 2:
+				token = 2;
 				if (!isdigit(nextCharacter)) {
-					token = 2;
-					sem->num = atoi(lexeme);
+					return token;
 				}
 				else {
 					lexeme[index] = nextCharacter;
 					index++;
+					sem->num = atoi(lexeme);
 				}
 				break;
 		}

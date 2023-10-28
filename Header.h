@@ -3,6 +3,9 @@
 #include <string.h>
 #include <iostream>
 
+#define INIT 0
+#define SIZE 100
+
 union semantic_info {
 	char* str;
 	int num;
